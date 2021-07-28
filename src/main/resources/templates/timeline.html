@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" cotent="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/my.css" th:href="@{/css/my.css}">
+    <title>时间轴</title>
+</head>
+<body>
+<!--导航-->
+<nav class="ui inverted attached segment m-padding-tb-mini m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu m-margin-tb-mini">
+            <h2 class="ui teal header item logo">Blog</h2>
+            <a href="index.html" class="m-item item m-mobile-hidden m-text-size"><i class="home icon"></i>首页</a>
+            <a href="classify.html" class="m-item item m-mobile-hidden m-text-size"><i class="idea icon"></i>分类</a>
+            <a href="#" class="m-item item m-mobile-hidden m-text-size"><i class="tags icon"></i>标签</a>
+            <a href="#" class="m-item item m-mobile-hidden m-text-size"><i class="clone icon"></i>归档</a>
+            <a href="#" class="m-item item m-mobile-hidden m-text-size"><i class="info icon"></i>关于我</a>
+            <div class="right item">
+                <div class="ui icon input">
+                    <input type="text" placeholder="Search...">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+        <a href="#" class="ui menu toggle black icon button m-nav-right m-mobile-show">
+            <i class="sidebar icon"></i>
+        </a>
+    </div>
+</nav>
+
+<!--内容-->
+<div class="m-padding-tb-massive">
+    <div class="times">
+        <ul>
+            <li><b></b><span>2010-01-01</span><p>这里是2010年哟</p></li>
+            <!--b标签不输入内容，span标签内输入时间不限制格式，p标签内输入介绍内容。注意，标签内不能使用div分割-->
+            <li><b></b><span>2011-01-01</span><p>这里是2011年哟</p></li>
+            <li><b></b><span>2012-01-01</span><p>这里是2012年哟</p></li>
+            <li><b></b><span>2013-01-01</span><p>这里是2013年哟</p></li>
+            <li><b></b><span>2014-01-01</span><p>这里是2014年哟</p></li>
+        </ul>
+    </div>
+</div>
+
+<!--底部-->
+<footer class="ui inverted vertical segment m-padding-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided stackable grid">
+
+            <div class="four wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img src="../static/images/IMG_1237.PNG" class="ui circular image" style="width: 180px">
+                    </div>
+                </div>
+            </div>
+
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-spaced m-text-lined m-text-opacity-mini">最新博客</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">1</a>
+                    <a href="#" class="item">2</a>
+                    <a href="#" class="item">3</a>
+                    <a href="#" class="item">4</a>
+                </div>
+            </div>
+
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-spaced m-text-lined m-text-opacity-mini">联系我</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">Email：1010843472@qq.com</a>
+                    <a href="#" class="item">QQ：1010843472</a>
+                </div>
+            </div>
+
+            <div class="six wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced m-text-lined m-text-opacity-mini">WangHL</h4>
+                <p class="m-text-thin m-text-spaced m-text-lined m-text-opacity-mini">
+                    这是我的个人博客，会分享关于编程、写作、思考相关的任何内容，希望可以给来到这里的人提供帮助...</p>
+            </div>
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-text-lined m-text-opacity-mini">Copyright © 2020-2021 WangHL Designed by
+            WangHL</p>
+    </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+<script>
+    /*---移动端点击显示导航---*/
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hidden')
+    })
+    /*-----logo回首页-------*/
+    $('.logo').click(function (){
+        window.location.href='/'
+    })
+</script>
+</body>
+</html>

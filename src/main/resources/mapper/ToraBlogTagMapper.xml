@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanghl.torablog.mapper.ToraBlogTagMapper">
+    <select id="selectByBlogId" resultType="com.wanghl.torablog.entity.ToraBlogTag">
+        select a.tag_id,a.blog_id,b.`name` from tora_blog_tag a
+        inner join tora_tag b on a.tag_id = b.id
+        where a.blog_id = #{id}
+    </select>
+</mapper>

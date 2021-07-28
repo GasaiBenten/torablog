@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanghl.torablog.mapper.ToraCommentMapper">
+    <select id="selectByBlogId" resultType="com.wanghl.torablog.entity.ToraComment">
+        select a.id as id,a.content,a.gmt_create,a.t_publish,a.parent_id,a.is_delete,
+               b.id as blog_id,b.title,c.id as user_id,c.username,c.avatar
+        from tora_comment a
+                 inner join tora_blog b on a.blog_id = b.id
+                 inner join tora_user c on a.user_id = c.id
+        where a.is_delete = 0 and a.t_publish = 1 and a.parent_id = 0 and a.blog_id = #{blogId}
+            limit #{current},#{size}
+    </select>
+
+    <select id="selectReplyByBlogId" resultType="com.wanghl.torablog.entity.ToraComment">
+        select a.id as id,a.content,a.gmt_create,a.t_publish,a.parent_id,a.is_delete,
+               b.id as blog_id,b.title,c.id as user_id,c.username,c.avatar,
+               (select username from tora_user
+                    where id = ( select user_id from tora_comment where id = a.parent_id)) as `to`
+        from tora_comment a
+                 inner join tora_blog b on a.blog_id = b.id
+                 inner join tora_user c on a.user_id = c.id
+        where a.is_delete = 0 and a.t_publish = 1 and a.parent_id != 0 and a.blog_id = #{blogId}
+    </select>
+</mapper>

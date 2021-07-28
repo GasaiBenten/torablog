@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanghl.torablog.mapper.ToraTagMapper">
+    <select id="selectTop6Tag" resultType="com.wanghl.torablog.entity.ToraTag">
+        select a.id,a.`name`,count(c.id) as count
+        from tora_tag a
+            inner join tora_blog_tag b on a.id = b.tag_id
+            inner join tora_blog c on b.blog_id = c.id
+        where a.is_deleted = 0 and c.is_deleted = 0 and c.t_publish = 1
+        GROUP BY a.id,a.`name`
+        order by count desc
+            limit 0,6
+    </select>
+</mapper>

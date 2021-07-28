@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanghl.torablog.mapper.ToraBlogMapper">
+    <select id="selectBlogPage" resultType="com.wanghl.torablog.entity.ToraBlog">
+        select a.*, b.avatar, b.id as user_id, c.id as classify_id
+        from tora_blog a
+                 inner join tora_user b on a.username = b.username
+                 left join tora_classify c on a.classify = c.name
+        where a.is_deleted = 0 and a.t_publish = 1
+        limit #{current},#{size}
+    </select>
+
+    <select id="selectBlogById" resultType="com.wanghl.torablog.entity.ToraBlog">
+        select a.*, b.avatar, b.id as user_id, c.id as classify_id
+        from tora_blog a
+                 inner join tora_user b on a.username = b.username
+                 left join tora_classify c on a.classify = c.name
+        where a.is_deleted = 0 and a.t_publish = 1 and a.id = #{id}
+    </select>
+
+    <select id="selectBlogPageByClassifyId" resultType="com.wanghl.torablog.entity.ToraBlog">
+        select a.*, b.avatar, b.id as user_id, c.id as classify_id
+        from tora_blog a
+                 inner join tora_user b on a.username = b.username
+                 inner join tora_classify c on a.classify = c.name
+        where a.is_deleted = 0 and a.t_publish = 1 and classify = (select `name` from tora_classify where id = #{classifyId})
+            limit #{current},#{size}
+    </select>
+</mapper>

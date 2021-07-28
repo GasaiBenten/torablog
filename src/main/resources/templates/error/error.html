@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" cotent="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/my.css" th:href="@{/css/my.css}">
+    <title>错误</title>
+</head>
+<body>
+
+<!--导航-->
+<nav class="ui inverted attached segment m-padding-tb-mini m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu m-margin-tb-mini">
+            <h2 class="ui teal header item logo">Blog</h2>
+            <a th:href="@{/}" class="m-item item m-mobile-hidden m-text-size"><i class="home icon"></i>首页</a>
+            <a th:href="@{/classify/all}" class="m-item item m-mobile-hidden m-text-size"><i class="idea icon"></i>分类</a>
+            <a th:href="@{/tags/all}" class="m-item item m-mobile-hidden m-text-size"><i class="tags icon"></i>标签</a>
+            <a th:href="@{/archive}" class="m-item item m-mobile-hidden m-text-size"><i class="clone icon"></i>归档</a>
+            <a th:href="@{/about}" class="m-item item m-mobile-hidden m-text-size"><i class="info icon"></i>关于我</a>
+            <div class="right item">
+                <form name="search" action="#" method="post" th:action="@{/search}" target="_blank">
+                    <div class="ui icon input">
+                        <input type="text" name="query" placeholder="Search...">
+                        <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                    </div>
+                </form>
+            </div>
+            <a th:href="@{/login}" class="m-item item m-mobile-hidden m-text-size"><i class="user icon"></i>登录</a>
+        </div>
+        <a href="#" class="ui menu toggle black icon button m-nav-right m-mobile-show">
+            <i class="sidebar icon"></i>
+        </a>
+    </div>
+</nav>
+
+    <div class="m-container m-padding-tb-big m-padding-lr-big">
+        <div class="ui error message">
+            <div class="ui container">
+                <h1>错误</h1>
+                <div>
+                    <div th:utext="'<!--'" th:remove="tag"></div>
+                    <div th:utext="'Failed Request URL : ' + ${URL}" th:remove="tag"></div>
+                    <div th:utext="'Exception message : ' + ${Exception.getMessage()}" th:remove="tag"></div>
+                    <ul th:remove="tag">
+                        <li th:each="st : ${Exception}" th:remove="tag"><span th:utext="${st}" th:remove="tag"></span></li>
+                    </ul>
+                    <div th:utext="'-->'" th:remove="tag"></div>
+                    <p>请联系管理员!</p>
+                </div>
+            </div>
+        </div>
+        <div class="ui right aligned basic segment">
+            <a type="button" class="ui mini teal button" th:href="@{/}">首页</a>
+        </div>
+    </div>
+    <!--底部-->
+    <footer class="ui inverted vertical segment m-padding-tb-massive">
+        <div class="ui center aligned container">
+            <div class="ui inverted divided stackable grid">
+
+                <div class="four wide column">
+                    <div class="ui inverted link list">
+                        <div class="item">
+                            <img src="../../static/images/IMG_1237.PNG" th:src="@{/images/IMG_1237.PNG}" class="ui circular image" style="width: 180px">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="three wide column">
+                    <h4 class="ui inverted header m-text-spaced m-text-lined m-text-opacity-mini">最新博客</h4>
+                    <div class="ui inverted link list">
+                        <a href="#" class="item" target="_blank">Spring Boot</a>
+                    </div>
+                </div>
+
+                <div class="three wide column">
+                    <h4 class="ui inverted header m-text-spaced m-text-lined m-text-opacity-mini">联系我</h4>
+                    <div class="ui inverted link list">
+                        <a href="#" class="item">Email：1010843472@qq.com</a>
+                        <a href="#" class="item">QQ：1010843472</a>
+                    </div>
+                </div>
+
+                <div class="six wide column">
+                    <h4 class="ui inverted header m-text-thin m-text-spaced m-text-lined m-text-opacity-mini">WangHL</h4>
+                    <p class="m-text-thin m-text-spaced m-text-lined m-text-opacity-mini">
+                        这是我的个人博客，会分享关于编程、写作、思考相关的任何内容，希望可以给来到这里的人提供帮助...</p>
+                </div>
+            </div>
+            <div class="ui inverted section divider"></div>
+            <p class="m-text-thin m-text-spaced m-text-lined m-text-opacity-mini">Copyright © 2020-2021 WangHL Designed by
+                WangHL</p>
+        </div>
+    </footer>
+</body>
+</html>

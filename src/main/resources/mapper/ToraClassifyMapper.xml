@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanghl.torablog.mapper.ToraClassifyMapper">
+    <select id="selectTop4Classify" resultType="com.wanghl.torablog.entity.ToraClassify">
+        select a.id,a.`name`,count(b.id) as `count`
+        from tora_classify a
+            inner join tora_blog b on a.`name` = b.classify
+        where a.is_deleted = 0 and b.is_deleted = 0 and b.t_publish = 1
+        GROUP BY a.id,a.`name`
+        order by `count` desc
+            limit 0,4
+    </select>
+    <select id="selectClassify" resultType="com.wanghl.torablog.entity.ToraClassify">
+        select a.id,a.`name`,count(b.id) as `count`
+        from tora_classify a
+            inner join tora_blog b on a.`name` = b.classify
+        where a.is_deleted = 0 and b.is_deleted = 0 and b.t_publish = 1
+        GROUP BY a.id,a.`name`
+    </select>
+</mapper>

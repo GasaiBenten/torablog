@@ -1,0 +1,42 @@
+//GET blog/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "标题 内容",
+            "fields": ["title","username","content"]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "term":{
+            "classify":"分类1"
+          }
+        },
+        {
+          "nested": {
+            "path": "tagList",
+            "query": {
+              "bool": {
+                "must": [
+                  {
+                    "terms":{
+                      "tagList.name": [
+                        "标签4",
+                        "标签1"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+}
