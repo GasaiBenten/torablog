@@ -17,14 +17,16 @@
         <div class="ui inverted secondary stackable menu m-margin-tb-mini">
             <h2 class="ui teal header item logo">Blog</h2>
             <a th:href="@{/1}" th:classappend="${n==1} ? 'active'" class="m-item item m-mobile-hidden m-text-size"><i class="home icon"></i>首页</a>
+            <a th:href="@{https://github.com/GasaiBenten/torablog}" TARGET="_blank" class="m-item item m-mobile-hidden m-text-size"><i class="home icon"></i>项目下载</a>
 <!--            <a th:href="@{/classify}" th:classappend="${n==2} ? 'active'" class="m-item item m-mobile-hidden m-text-size"><i class="idea icon"></i>分类</a>-->
 <!--            <a th:href="@{/tags}" th:classappend="${n==3} ? 'active'" class="m-item item m-mobile-hidden m-text-size"><i class="tags icon"></i>标签</a>-->
 <!--            <a th:href="@{/archive}" th:classappend="${n==4} ? 'active'" class="m-item item m-mobile-hidden m-text-size"><i class="clone icon"></i>归档</a>-->
             <a th:href="@{/about}" th:classappend="${n==5} ? 'active'" class="m-item item m-mobile-hidden m-text-size"><i class="info icon"></i>关于我</a>
             <div class="right item">
-                <form name="search" action="#" method="post" th:action="@{/search}" target="_blank">
+                <form name="search" action="#" method="get" th:action="@{/search}" target="_self">
                     <div class="ui icon input">
                         <input type="text" name="keyword" placeholder="请输入关键字...">
+                        <input type="hidden" name="currentPage" th:value="1">
                         <i onclick="document.forms['search'].submit()" class="search link icon"></i>
                     </div>
                 </form>

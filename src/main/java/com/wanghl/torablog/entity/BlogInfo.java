@@ -2,6 +2,7 @@ package com.wanghl.torablog.entity;
 
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,6 +15,9 @@ public class BlogInfo {
     private String title;
     private String content;
     private String username;
+    private String cover;
+    private Date gmtCreate;
+    private Date gmtModified;
     private String classify;
     private List<ToraTagVo> tagList;
 

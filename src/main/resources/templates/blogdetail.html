@@ -88,7 +88,7 @@
 
             <h1 class="ui center aligned header" th:text="${toraBlog.title}">标题</h1>
 
-            <div id="content" class="m-padding-lr-big js-toc-content" th:text="${toraBlog.content}">
+            <div id="content" class="m-padding-lr-big js-toc-content" th:utext="${toraBlog.content}">
                 <h1 id="selection1">这是H1标签</h1>
                 <h2 id="selection2">这是H2标签</h2>
                 <h3 id="selection3">这是H3标签</h3>

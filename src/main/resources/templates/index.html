@@ -85,7 +85,7 @@
                                         >
                                     </a>
                                 </div>
-                                <p class="m-text" th:text="${blog.content.length() > 500 ? blog.content.substring(0,500) : blog.content}">内容</p>
+                                <div class="m-text" style="height: 130px; overflow: hidden; text-overflow:ellipsis" th:utext="${blog.content}">内容</div>
                                 <div style="margin: 15px 0;">
                                     <a href="blogdetail.html" target="_blank" th:href="@{'/blog/'+${blog.id}}" style="font-size: 16px" >继续阅读</a>
                                 </div>
