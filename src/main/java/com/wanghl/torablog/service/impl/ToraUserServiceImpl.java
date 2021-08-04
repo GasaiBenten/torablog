@@ -2,19 +2,20 @@ package com.wanghl.torablog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wanghl.torablog.Utils.MD5;
+
 import com.wanghl.torablog.entity.ToraUser;
 import com.wanghl.torablog.mapper.ToraUserMapper;
 import com.wanghl.torablog.service.ToraUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.catalina.Session;
+import org.apache.catalina.session.StandardSession;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * <p>
@@ -51,6 +52,7 @@ public class ToraUserServiceImpl extends ServiceImpl<ToraUserMapper, ToraUser> i
         } else {
             user.setPassword(null);
             session.setAttribute("user",user);
+            request.getSession().setAttribute("user",user);
             if (referer == ""){
                 return "redirect:/";
             }
@@ -148,5 +150,10 @@ public class ToraUserServiceImpl extends ServiceImpl<ToraUserMapper, ToraUser> i
     public String logout(HttpSession session) {
         session.removeAttribute("user");
         return "redirect:/";
+    }
+
+    @Override
+    public void refreshSign(ToraUser user) {
+        baseMapper.refreshSign(user);
     }
 }

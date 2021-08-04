@@ -1,5 +1,6 @@
 package com.wanghl.torablog.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wanghl.torablog.entity.SearchParam;
 import com.wanghl.torablog.entity.SearchResult;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public interface ToraBlogService extends IService<ToraBlog> {
 
-    List<ToraBlog> getBlogPage(Page<ToraBlog> page);
+    IPage<ToraBlog> getBlogPage(Page<ToraBlog> page);
 
     List<ToraBlog> getTop4Recommend();
 

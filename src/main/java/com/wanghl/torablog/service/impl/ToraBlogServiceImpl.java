@@ -1,13 +1,12 @@
 package com.wanghl.torablog.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wanghl.torablog.config.ElasticSearchConfig;
 import com.wanghl.torablog.constant.EsConstant;
-import com.wanghl.torablog.entity.BlogInfo;
-import com.wanghl.torablog.entity.SearchParam;
-import com.wanghl.torablog.entity.SearchResult;
-import com.wanghl.torablog.entity.ToraBlog;
+import com.wanghl.torablog.entity.*;
 import com.wanghl.torablog.mapper.ToraBlogMapper;
 import com.wanghl.torablog.service.ToraBlogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,13 +14,12 @@ import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.lucene.search.function.FunctionScoreQuery;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.suggest.term.TermSuggestion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.ArrayUtils;
 import org.thymeleaf.util.StringUtils;
@@ -29,6 +27,7 @@ import org.thymeleaf.util.StringUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -43,23 +42,39 @@ public class ToraBlogServiceImpl extends ServiceImpl<ToraBlogMapper, ToraBlog> i
 
     @Autowired
     private RestHighLevelClient esClient;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Override
-    public List<ToraBlog> getBlogPage(Page<ToraBlog> page) {
-        long size = page.getSize();
-        long current = (page.getCurrent() - 1) * size;
-        List<ToraBlog> blogList = baseMapper.selectBlogPage(current,size);
+    public IPage<ToraBlog> getBlogPage(Page<ToraBlog> page) {
+        IPage<ToraBlog> blogList = baseMapper.selectBlogPage(page);
         return blogList;
     }
 
     @Override
     public List<ToraBlog> getTop4Recommend() {
-        return baseMapper.selectTop4Recommend();
+        String top4Recommend = redisTemplate.opsForValue().get("Top4Recommend");
+        List<ToraBlog> toraBlogs = JSON.parseObject(top4Recommend, new TypeReference<List<ToraBlog>>() {});
+        if (toraBlogs==null){
+            List<ToraBlog> blogList = baseMapper.selectTop4Recommend();
+            redisTemplate.opsForValue().set("Top4Recommend",JSON.toJSONString(blogList),1, TimeUnit.HOURS);
+            return blogList;
+        } else {
+            return toraBlogs;
+        }
     }
 
     @Override
     public List<ToraBlog> getNew4Blog() {
-        return baseMapper.selectNew4Blog();
+        String new4Blog = redisTemplate.opsForValue().get("New4Blog");
+        List<ToraBlog> toraBlogs = JSON.parseObject(new4Blog, new TypeReference<List<ToraBlog>>() {});
+        if (toraBlogs==null){
+            List<ToraBlog> blogList = baseMapper.selectNew4Blog();
+            redisTemplate.opsForValue().set("New4Blog",JSON.toJSONString(blogList),1, TimeUnit.HOURS);
+            return blogList;
+        } else {
+            return toraBlogs;
+        }
     }
 
     @Override

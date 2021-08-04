@@ -28,4 +28,6 @@ public interface ToraUserService extends IService<ToraUser> {
 
     String logout(HttpSession session);
 
+    void refreshSign(ToraUser user);
+
 }

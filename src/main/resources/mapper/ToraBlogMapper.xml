@@ -4,10 +4,9 @@
     <select id="selectBlogPage" resultType="com.wanghl.torablog.entity.ToraBlog">
         select a.*, b.avatar, b.id as user_id, c.id as classify_id
         from tora_blog a
-                 inner join tora_user b on a.username = b.username
+                 left join tora_user b on a.username = b.username
                  left join tora_classify c on a.classify = c.name
         where a.is_deleted = 0 and a.t_publish = 1
-        limit #{current},#{size}
     </select>
 
     <select id="selectBlogById" resultType="com.wanghl.torablog.entity.ToraBlog">

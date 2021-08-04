@@ -60,15 +60,16 @@ public class ToraCommentController {
         model.addAttribute("pageTotal",pageTotal);
         model.addAttribute("commentPage",commentPage);
         model.addAttribute("blogId",blogId);
-        return "blogdetail::commentList";
+        return "blogdetail :: commentList";
     }
 
 
     //发表评论
     @PostMapping("/addComment")
-    public void addComment(ToraComment toraComment){
+    public String addComment(ToraComment toraComment){
         Integer blogId = toraComment.getBlogId();
         toraCommentService.save(toraComment);
+        return "/commentPage/"+toraComment.getBlogId()+"/1/5";
     }
 
 }

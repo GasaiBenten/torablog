@@ -16,4 +16,6 @@ import java.util.List;
 public interface ToraTagService extends IService<ToraTag> {
 
     List<ToraTag> getTop6Tag();
+
+    List<ToraTag> getTag();
 }

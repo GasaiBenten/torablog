@@ -1,7 +1,9 @@
+/*
 package com.wanghl.torablog.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wanghl.torablog.entity.ToraBlog;
 import com.wanghl.torablog.entity.ToraClassify;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
+*/
 /**
  * <p>
  *  前端控制器
@@ -27,7 +30,8 @@ import java.util.Queue;
  *
  * @author wanghl
  * @since 2021-04-12
- */
+ *//*
+
 @Controller
 public class ToraClassifyController {
 
@@ -41,7 +45,7 @@ public class ToraClassifyController {
     public String getClassify(Model model){
         List<ToraClassify> classifyList = toraClassifyService.getClassify();
         Page<ToraBlog> page = new Page<>(1,5);
-        List<ToraBlog> blogList = toraBlogService.getBlogPage(page);
+        IPage<ToraBlog> blogList = toraBlogService.getBlogPage(page);
 
         QueryWrapper<ToraBlog> wrapper = new QueryWrapper<>();
         wrapper.eq("is_deleted",0);
@@ -60,7 +64,7 @@ public class ToraClassifyController {
                                   Model model){
         List<ToraClassify> classifyList = toraClassifyService.getClassify();
         Page<ToraBlog> page = new Page<>(current,5);
-        List<ToraBlog> blogList = toraBlogService.getBlogPage(page);
+        IPage<ToraBlog> blogList = toraBlogService.getBlogPage(page);
 
         QueryWrapper<ToraBlog> wrapper = new QueryWrapper<>();
         wrapper.eq("is_deleted",0);
@@ -101,3 +105,4 @@ public class ToraClassifyController {
     }
 }
 
+*/

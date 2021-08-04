@@ -52,7 +52,7 @@ public class ToraCommentServiceImpl extends ServiceImpl<ToraCommentMapper, ToraC
     }
 
     private void pickChildren(ToraComment toraComment, List<ToraComment> children) {
-        if (toraComment.getChildren().size()>1){
+        if (toraComment.getChildren().size()>0){
             for (int i = 0; i < toraComment.getChildren().size(); i++) {
                 ToraComment reply = toraComment.getChildren().get(i);
                 children.add(reply);

@@ -65,7 +65,7 @@
                     <span th:text="${#dates.format(toraBlog.gmtCreate,'yyyy-MM-dd')}">2021-02-02</span>
                 </div>
                 <div class="item">
-                    <i class="eye icon"></i><span>123</span>
+                    <i class="eye icon"></i><span></span>
                 </div>
             </div>
         </div>
@@ -119,7 +119,7 @@
         <!--评论-->
         <div class="ui bottom attached segment" th:if="toraBlog.t_comment">
             <div id="comment-container" class="ui teal attached segment">
-                <div th:fragment="commentList" id="commentlist">
+                <div th:fragment="commentList" id="commentList">
                     <input type="hidden" id="page" value="1" th:value="${pageCurrent}">
                     <div class="ui threaded comments" style="max-width: 100%">
                         <h2 class="ui dividing header">评论</h2>
@@ -331,6 +331,14 @@
 
 
 <script>
+    function globalSearch(){
+        let val = $("#keyword").val();
+        if (val === ""){
+            location.href = "/search";
+        } else {
+            location.href = "/search?keyword="+val;
+        }
+    }
     /*---移动端点击显示导航---*/
     $('.menu.toggle').click(function () {
         $('.m-item').toggleClass('m-mobile-hidden')

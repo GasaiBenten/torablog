@@ -23,13 +23,10 @@
 <!--            <a th:href="@{/archive}" th:classappend="${n==4} ? 'active'" class="m-item item m-mobile-hidden m-text-size"><i class="clone icon"></i>归档</a>-->
             <a th:href="@{/about}" th:classappend="${n==5} ? 'active'" class="m-item item m-mobile-hidden m-text-size"><i class="info icon"></i>关于我</a>
             <div class="right item">
-                <form name="search" action="#" method="get" th:action="@{/search}" target="_self">
-                    <div class="ui icon input">
-                        <input type="text" name="keyword" placeholder="请输入关键字...">
-                        <input type="hidden" name="currentPage" th:value="1">
-                        <i onclick="document.forms['search'].submit()" class="search link icon"></i>
-                    </div>
-                </form>
+                <div class="ui icon input">
+                    <input type="text" id="keyword" name="keyword" placeholder="请输入关键字..." th:value="${param.keyword}">
+                    <i onclick="globalSearch()" class="search link icon"></i>
+                </div>
             </div>
             <a th:if="${session.user == null}" th:href="@{/login}" class="m-item item m-mobile-hidden m-text-size"><i class="user icon"></i>登录</a>
             <div th:if="${session.user != null}" class="ui inverted right menu m-item m-mobile-hidden">
@@ -38,10 +35,12 @@
                     <div style="font-size: 18px" th:text="${session.user.username}">王海力</div>
                     <i class="dropdown icon"></i>
                     <div class="menu">
-                        <div class="item">个人信息</div>
-                        <div class="item">博客动态</div>
+                        <div onclick="sign()"
+                             th:class="${session.user.isSigned == 1 ? 'disabled item' : 'item'}"
+                             th:text="${session.user.isSigned == 1 ? '已签到' : '签到'}">个人信息
+                        </div>
+                        <input type="hidden" name="userId" id="userId" th:value="${session.user.id}">
                         <div class="divider"></div>
-                        <div class="item">修改密码</div>
                         <a th:href="@{/logout}" class="item">注销</a>
                     </div>
                 </div>

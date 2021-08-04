@@ -40,6 +40,8 @@ public class ToraUser implements Serializable {
 
     private Integer isAdmin;
 
+    private Integer isSigned;
+
     @TableLogic
     private Integer isDeleted;
 

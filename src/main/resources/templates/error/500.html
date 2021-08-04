@@ -10,7 +10,7 @@
 <body>
 
 <!--导航-->
-<nav class="ui inverted attached segment m-padding-tb-mini m-shadow-small">
+<nav th:replace="fragments :: nav(0)" class="ui inverted attached segment m-padding-tb-mini m-shadow-small">
     <div class="ui container">
         <div class="ui inverted secondary stackable menu m-margin-tb-mini">
             <h2 class="ui teal header item logo">Blog</h2>
@@ -48,7 +48,7 @@
 </div>
 
 <!--底部-->
-<footer class="ui inverted vertical segment m-padding-tb-massive">
+<footer th:replace="fragments :: footer" class="ui inverted vertical segment m-padding-tb-massive">
     <div class="ui center aligned container">
         <div class="ui inverted divided stackable grid">
 

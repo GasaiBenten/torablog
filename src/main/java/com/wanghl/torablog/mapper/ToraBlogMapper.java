@@ -1,5 +1,7 @@
 package com.wanghl.torablog.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wanghl.torablog.entity.ToraBlog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,7 +20,7 @@ import java.util.List;
  */
 public interface ToraBlogMapper extends BaseMapper<ToraBlog> {
 
-    List<ToraBlog> selectBlogPage(@Param("current") long current,@Param("size") long size);
+    IPage<ToraBlog> selectBlogPage(@Param("page") Page<ToraBlog> page);
 
     @Select("select * from tora_blog where is_deleted = 0 and t_publish = 1 and t_recommend = 1 order by gmt_create desc limit 0,4")
     List<ToraBlog> selectTop4Recommend();

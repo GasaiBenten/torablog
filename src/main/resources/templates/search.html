@@ -46,17 +46,25 @@
             </div>
         </div>
         <div class="ui attached segment">
+            <span>分类：</span>
             <div class="ui labeled button m-margin-tb-mini" tabindex="0">
-                <a href="#" class="ui basic button">
-                    <i class="tag icon"></i> Like
+                <a th:href="${'javascript:search(&quot;classify&quot;,&quot;'+classify.name+'&quot;)'}"
+                   th:class="${((param.classify == null) ? 'ui basic button' : (param.classify.contains(classify.name)) ? 'ui basic button active item' : 'ui basic button')}"
+                   th:each="classify : ${classifyList}" th:text="${classify.name}">Like
                 </a>
-                <div class="ui basic left pointing label">
-                    1,048
-                </div>
+            </div>
+            <br>
+            <span>标签：</span>
+            <div class="ui labeled button m-margin-tb-mini" tabindex="0">
+                <a th:href="${'javascript:search(&quot;tagList&quot;,&quot;'+tag.name+'&quot;)'}"
+                   th:class="${((param.tagList == null) ? 'ui basic button' : (param.tagList.contains(tag.name)) ? 'ui basic button active item' : 'ui basic button')}"
+                   th:each="tag : ${tagList}"
+                   th:text="${tag.name}">Like
+                </a>
             </div>
         </div>
         <!--content-->
-        <div class="ui top attached segment m-padding-normal">
+        <div id="content" class="ui top attached segment m-padding-normal">
             <div class="ui vertical segment">
                 <div class="ui mobile reversed stackable grid" th:each="blog : ${result.blogInfoList}">
                     <div class="eleven wide column">
@@ -103,13 +111,13 @@
             <div class="ui middle aligned two column grid">
                 <div class="column">
                     <a href="#"
-                       th:href="@{'/search?currentPage='+${(result.currentPage)-1}}"
+                       th:href="${'javascript:search(&quot;currentPage&quot;,'+((result.currentPage)-1)+')'}"
                        th:unless="${result.currentPage==1}"
                        class="ui mini teal basic button">上一页</a>
                 </div>
                 <div class="right aligned column">
                     <a href="#"
-                       th:href="@{'/search?currentPage='+${(result.currentPage)+1}}"
+                       th:href="${'javascript:search(&quot;currentPage&quot;,'+((result.currentPage)+1)+')'}"
                        th:unless="${result.currentPage==result.totalPage}"
                        class="ui mini teal basic button">下一页</a>
                 </div>
@@ -164,6 +172,7 @@
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 
 <script>
+
     /*---移动端点击显示导航---*/
     $('.menu.toggle').click(function () {
         $('.m-item').toggleClass('m-mobile-hidden')
@@ -172,6 +181,120 @@
     $('.logo').click(function (){
         window.location.href='/'
     })
+    function globalSearch(){
+        let val = $("#keyword").val();
+        if (val === ""){
+            location.href = "/search";
+        } else {
+            location.href = "/search?keyword="+val;
+        }
+    }
+    /*-----筛选条件-----*/
+    function search(name,value){
+
+        let href = location.href;
+        if (href.includes("currentPage") && name !== "currentPage"){
+            href = funcUrlDel(href,"currentPage","");
+        }
+        if (href.includes("?")){
+            if (href.includes(name) && name !== "tagList"){
+                location.href = replaceParamVal(href,name,value);
+            }else{
+                if (href.includes(name+"="+value)){
+                    location.href = funcUrlDel(href,name,value);
+                } else {
+                    location.href = href + "&" + name + "=" + value;
+                }
+            }
+        }else{
+            location.href = href + "?" + name + "=" + value;
+        }
+
+    }
+    /*-----替换参数-----*/
+    function replaceParamVal(url,paramName,replaceVal) {
+        const oUrl = url.toString();
+        const re = eval('/(' + paramName + '=)([^&]*)/gi');
+        const nUrl = oUrl.replace(re, paramName + '=' + replaceVal)
+        return nUrl;
+    }
+
+    /**
+     *
+     * @param href 地址
+     * @param names 要删除的参数
+     * @param value 对应的值
+     * @returns {string}
+     */
+    function funcUrlDel(href,names,value) {
+        debugger
+        if(typeof(names)=='string'){
+            names = [names];
+        }
+        let search = href.substr(href.indexOf("?")+1);
+        let host = href.substr(0,href.indexOf("search"));
+        const obj = {};
+        const arr = search.split("&");
+        //获取参数转换为object
+        for(let i = 0; i < arr.length; i++) {
+            arr[i] = arr[i].split("=");
+            if (arr[i][0] == "tagList"){
+                if (obj[arr[i][0]]==null){
+                    obj[arr[i][0]] = arr[i][1];
+                }else{
+                    obj[arr[i][0]] = obj[arr[i][0]]+","+arr[i][1];
+                }
+            }else{
+                obj[arr[i][0]] = arr[i][1];
+            }
+        };
+        //删除指定参数
+        for(let i = 0; i < names.length; i++) {
+            if (names[i] == "tagList"){
+                let split = obj[names[i]].split(",");
+                for (let j=0; j<split.length; j++){
+                    if (split[j] == value){
+                        split.splice(j,1);
+                        break;
+                    }
+                }
+                for (let j=0; j<arr.length; j++){
+                    if (arr[j][0] == "tagList"){
+                        for (let k=0; k<arr[j].length; k++){
+                            if (arr[j][k]==value){
+                                arr.splice(j,1);
+                                break;
+                            }
+                        }
+                    }
+                }
+                obj[names[i]] = split.join(",");
+            } else {
+                for (let j=0; j<arr.length; j++){
+                    if (arr[j][0] == names[i]){
+                        arr.splice(j,1);
+                        break;
+                    }
+                }
+                delete obj[names[i]];
+            }
+        }
+        //重新构建条件数组
+        for (let i = 0; i < arr.length; i++){
+            arr[i] = arr[i].join("=");
+        }
+        let param = arr.join("&");
+        //重新拼接url
+        // const url = loca.origin + loca.pathname + "?" + JSON.stringify(obj).replace(/[\"\{\}]/g, "").replace(/\:/g, "=").replace(/\,/g, "&");
+        let url = "";
+        if (param != ""){
+            url = host + "search?" + param;
+        }else {
+            url = host + "search";
+        }
+        debugger
+        return url;
+    }
 </script>
 </body>
 </html>

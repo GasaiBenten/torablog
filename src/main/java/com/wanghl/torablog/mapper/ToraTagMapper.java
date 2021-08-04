@@ -17,4 +17,7 @@ import java.util.List;
 public interface ToraTagMapper extends BaseMapper<ToraTag> {
 
     List<ToraTag> selectTop6Tag();
+
+    List<ToraTag> selectTag();
+
 }
